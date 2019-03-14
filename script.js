@@ -19,9 +19,11 @@ function processResults(data){
     var output = $("#output").html();
     var numResults = parseInt($("#results").find(":selected").html());
     for (var i = 0; i < numResults; i++){
-        output += ("<td>" + data.result[i].trackName +
-        "</td><td>" + "<audio controls='true' src=" + data.result[i].previewUrl + "></audio></td>");
+        output += ("<td>" + i + ":" + data.result[i].artistName + "," + data.result[i].trackName +
+            "<audio controls><source src=" + data.result[i].previewUrl + "type='audio/ogg'></audio></td><td>" +
+            data.result[i].collectionName + "</td><img src=" + data.result[i].artworkUrl60 + "/>");
     }
+    console.log(output);
     $("#output").html(output);
 
 }
