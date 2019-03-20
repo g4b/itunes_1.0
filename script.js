@@ -1,30 +1,30 @@
 $(document).ready(function(){
-    function execute(){
-        var term = $("#artist").text();
+    $("#search").click(function(){
+        var term = $("#artist").html();
         $.ajax({
             url: "http://itunes.apple.com/search?term=" + term,
             type: "GET",
             crossDomain: true,
             dataType: "jsonp",
-            success: function(data){
-                processResults(data);
-                console.log(data);
-                console.log(data.numResults);
+            success: function(result){
+                processResults(result);
             },
             error: function(){
                 $("#output").html("Sorry, that didn't work. Please try again.");
             }
         });
-    }
+    });
 });
 
-function processResults(data){
+function processResults(json){
     var output = $("#output").html();
-    data.numResults = $("#results").val();
-    for (var i = 0; i < data.numResults; i++){
-        output += ("<td>" + i + ":" + data.results[i].artistName + "," + data.results[i].trackName +
-            "<audio controls><source src=" + data.results[i].previewUrl + "type='audio/ogg'></audio></td><td>" +
-            data.results[i].collectionName + "</td><img src=" + data.results[i].artworkUrl60 + "/>");
+    json.numResults = $("#results").val();
+    for (var i = 0; i < json.numResults; i++){
+        output += (
+            "<td>" + i + ":" + json.results[i].artistName + "," + json.results[i].trackName +
+            "<audio controls><source src=" + json.results[i].previewUrl + "type='audio/ogg'></audio></td><td>" +
+            json.results[i].collectionName +
+            "</td><img src=" + json.results[i].artworkUrl60 + "/>");
     }
     console.log(output);
     $("#output").html(output);
