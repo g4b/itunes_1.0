@@ -1,13 +1,15 @@
 $(document).ready(function(){
+    //$("#output").remove();
     $("#search").click(function(){
-        var term = $("#artist").html();
+        var term = $("#artist").val();
         $.ajax({
-            url: "http://itunes.apple.com/search?term=" + term,
-            type: "GET",
+            url: "https://itunes.apple.com/search?term=" + term,
+            type: 'GET',
             crossDomain: true,
-            dataType: "jsonp",
+            dataType: 'jsonp',
             success: function(result){
                 processResults(result);
+                return result;
             },
             error: function(){
                 $("#output").html("Sorry, that didn't work. Please try again.");
@@ -16,16 +18,23 @@ $(document).ready(function(){
     });
 });
 
-function processResults(json){
+function processResults(data){
+    console.log(data);
+    var term = $("#artist").val();
     var output = $("#output").html();
-    json.numResults = $("#results").val();
-    for (var i = 0; i < json.numResults; i++){
-        output += (
-            "<td>" + i + ":" + json.results[i].artistName + "," + json.results[i].trackName +
-            "<audio controls><source src=" + json.results[i].previewUrl + "type='audio/ogg'></audio></td><td>" +
-            json.results[i].collectionName +
-            "</td><img src=" + json.results[i].artworkUrl60 + "/>");
+    if (term == ""){
+        alert("Error! You did not enter an artist name. Please try again.");
+    } else {
+        data.numResults = $("#results").val();
+        for (var i = 0; i < data.numResults; i++){
+            output += (
+                "<td>" + "<img src='" + data.results[i].artworkUrl100 +
+                "'/>" + (i + 1) + ":" + data.results[i].artistName + "," + data.results[i].trackName +
+                "<audio controls><source src=" + data.results[i].previewUrl + "type='audio/m4a'></audio><br>Album:" +
+                data.results[i].collectionName +
+                "<a href='detail.html?track=" + data.results[i] + "'>See More</a></td><br>");
+        }
+        console.log(output);
+        $("#output").html(output);
     }
-    console.log(output);
-    $("#output").html(output);
 }
