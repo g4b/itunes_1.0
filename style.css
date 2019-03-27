@@ -6,6 +6,10 @@ h1 {
     color: white;
 }
 
+#output {
+    margin: auto;
+}
+
 table {
     border: 3px solid lightseagreen;
 }

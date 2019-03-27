@@ -1,6 +1,6 @@
 $(document).ready(function(){
-    //$("#output").remove();
     $("#search").click(function(){
+        $("#output").empty();
         var term = $("#artist").val();
         $.ajax({
             url: "https://itunes.apple.com/search?term=" + term,
@@ -31,7 +31,7 @@ function processResults(data){
                 "<td>" + "<img src='" + data.results[i].artworkUrl100 +
                 "'/>" + (i + 1) + ":" + data.results[i].artistName + "," + data.results[i].trackName +
                 "<audio controls><source src=" + data.results[i].previewUrl + "type='audio/m4a'></audio><br>Album:" +
-                data.results[i].collectionName +
+                data.results[i].collectionName + " " +
                 "<a href='detail.html?artist=" + data.results[i].artistName + "&track=" + data.results[i] + "'>See More</a></td><br>");
         }
         console.log(output);
@@ -51,7 +51,7 @@ function getQueryParameter(name) {
     return false;
 }
 
-function moreStats(){
+function secondPage(){
     var artist = getQueryParameter("artist");
     var track = getQueryParameter("track");
     $.ajax({
@@ -61,12 +61,21 @@ function moreStats(){
         dataType: 'jsonp',
         success: function(data){
             console.log(data);
+            moreStats(data);
             return data;
         },
         error: function(){
             $("#output").html("Sorry, that didn't work. Please try again.");
         }
     });
+}
+
+function moreStats(data){
     var output2 = $("#output2").html();
-    output2
+    output2 += "<td>Song length:" + data.results[i].trackTimeMillis + "Genre:" +
+        data.results[i].primaryGenreName + "Explicit:" + isExplicit(data.results[i]) + "</td>"
+}
+
+function isExplicit(value){
+    return value.
 }
