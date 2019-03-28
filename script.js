@@ -30,7 +30,7 @@ function processResults(data){
             output += (
                 "<td>" + "<img src='" + data.results[i].artworkUrl100 +
                 "'/>" + (i + 1) + ":" + data.results[i].artistName + "," + data.results[i].trackName +
-                "<audio controls><source src=" + data.results[i].previewUrl + "type='audio/m4a'></audio><br>Album:" +
+                "<audio controls='true' src=" + "'" + data.results[i].previewUrl + "'" + " type='audio/m4a'></audio><br>Album:" +
                 data.results[i].collectionName + " " +
                 "<a href='detail.html?artist=" + data.results[i].artistName + "&track=" + data.results[i] + "'>See More</a></td><br>");
         }
@@ -65,17 +65,22 @@ function secondPage(){
             return data;
         },
         error: function(){
-            $("#output").html("Sorry, that didn't work. Please try again.");
+            $("#output2").html("Sorry, that didn't work. Please try again.");
         }
     });
 }
 
 function moreStats(data){
     var output2 = $("#output2").html();
-    output2 += "<td>Song length:" + data.results[i].trackTimeMillis + "Genre:" +
-        data.results[i].primaryGenreName + "Explicit:" + isExplicit(data.results[i]) + "</td>"
+    output2 += ("<td>Song length:" + data.results[i].trackTimeMillis + "Genre:" +
+        data.results[i].primaryGenreName + "Explicit:" + isExplicit(data.results[i]) + "</td>");
+    $("#output2").html(output2);
 }
 
 function isExplicit(value){
-    return value.
+    if(value.trackExplicitness == "explicit"){
+        return "Yes";
+    } else {
+        return "No";
+    }
 }
