@@ -7,10 +7,7 @@ $(document).ready(function(){
             type: 'GET',
             crossDomain: true,
             dataType: 'jsonp',
-            success: function(data){
-                processResults(data);
-                return data;
-            },
+            success: processResults,
             error: function(){
                 $("#output").html("Sorry, that didn't work. Please try again.");
             }
@@ -28,13 +25,12 @@ function processResults(data){
         data.numResults = $("#results").val();
         for (var i = 0; i < data.numResults; i++){
             output += (
-                "<td>" + "<img src='" + data.results[i].artworkUrl100 +
-                "'/>" + (i + 1) + ":" + data.results[i].artistName + "," + data.results[i].trackName +
+                "<tr><td>" + "<img src='" + data.results[i].artworkUrl100 +
+                "'/>" + (i + 1) + ":" + data.results[i].artistName + " -- " + data.results[i].trackName +
                 "<audio controls='true' src=" + "'" + data.results[i].previewUrl + "'" + " type='audio/m4a'></audio><br>Album:" +
                 data.results[i].collectionName + " " +
-                "<a href='detail.html?artist=" + data.results[i].artistName + "&track=" + data.results[i] + "'>See More</a></td><br>");
+                "<a href='detail.html?term=" + term + "&trackNum=" + i + "'>See More</a></td></tr><br>");
         }
-        console.log(output);
         $("#output").html(output);
     }
 }
@@ -52,17 +48,15 @@ function getQueryParameter(name) {
 }
 
 function secondPage(){
-    var artist = getQueryParameter("artist");
-    var track = getQueryParameter("track");
+    var term = getQueryParameter("term");
     $.ajax({
-        url: "https://itunes.apple.com/search?artistName=" + artist + "&trackName=" + track,
+        url: "https://itunes.apple.com/search?term=" + term,
         type: 'GET',
         crossDomain: true,
         dataType: 'jsonp',
         success: function(data){
             console.log(data);
             moreStats(data);
-            return data;
         },
         error: function(){
             $("#output2").html("Sorry, that didn't work. Please try again.");
@@ -71,9 +65,12 @@ function secondPage(){
 }
 
 function moreStats(data){
+    var trackNum = getQueryParameter("trackNum");
     var output2 = $("#output2").html();
-    output2 += ("<td>Song length:" + data.results[i].trackTimeMillis + "Genre:" +
-        data.results[i].primaryGenreName + "Explicit:" + isExplicit(data.results[i]) + "</td>");
+    output2 += ("<td>Song length: " + (data.results[trackNum].trackTimeMillis / 60000) + " minutes<br>Genre: " +
+        data.results[trackNum].primaryGenreName + "<br>Explicit: " + isExplicit(data.results[trackNum]) + "<br><a id='appleLink' href='" +
+        data.results[trackNum].previewUrl + "'>Apple Music Page</a></td>");
+    $("#songTitle").html("More Info -- " + data.results[trackNum].trackName);
     $("#output2").html(output2);
 }
 

@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>iTunes 1.0</title>
+    <title>iTunes Project</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" type="text/css">
 </head>
 <body>
-    <h1>iTunes info</h1>
-    <input type="text" id="artist">
-    <select class="w3-select" id="results">
+    <h1>Find an iTunes song!</h1>
+    <input class="w3-input" type="text" id="artist"><br>
+    <select class="w3-select w3-border" id="results">
+        <option selected disabled>Number of results:</option>
         <option>10</option>
         <option>25</option>
         <option>50</option>
     </select>
-    <button id="search">Go</button>
-    <table id="output"></table>
+    <button class="w3-button w3-indigo" id="search">Go</button><br>
+    <table class="w3-table-all w3-white" id="output"></table>
 </body>
 </html>

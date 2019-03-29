@@ -1,21 +1,31 @@
+#appleLink:link {
+    color: black;
+}
+
+#back:link {
+    color: white;
+}
+
+#appleLink:hover, #back:hover {
+    color: lightpink;
+}
+
 body {
     background-image: url("background-disco-5.jpg");
 }
 
 h1 {
-    color: white;
-}
-
-#output {
-    margin: auto;
-}
-
-table {
+    text-align: center;
+    font-family: "Didot";
     border: 3px solid lightseagreen;
+    background-color: darkgray;
+}
+
+button, h1, input {
+    margin: auto;
 }
 
 td {
     display: block;
-    background-color: darkgray;
     border: 1px solid black;
 }
